@@ -2,3 +2,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add keyframe animation */
+@keyframes slideUp {
+  0% {
+    transform: translateY(50px); /* เริ่มต้นจากล่าง */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0); /* ขยับขึ้นมาปกติ */
+    opacity: 1;
+  }
+}
+
+/* Apply the animation */
+.animate-slide-up {
+  animation: slideUp 1s ease-out forwards;
+}
