@@ -6,13 +6,12 @@ export default function Projects() {
   return (
     <>
       <Navbar />
-      <main className="max-w-4xl mx-auto p-10">
-        <h1 className="text-3xl font-semibold mb-6">โครงการของเรา</h1>
-        <ul className="space-y-4">
-          <li className="p-4 bg-gray-100 rounded shadow">โครงการสะพานลอยฟ้า (2566)</li>
-          <li className="p-4 bg-gray-100 rounded shadow">โครงการเขื่อนกันน้ำชายฝั่ง (2565)</li>
-          <li className="p-4 bg-gray-100 rounded shadow">โครงการระบบระบายน้ำเมืองหลัก (2564)</li>
-        </ul>
+      <main className="max-w-4xl mx-auto p-10 bg-white min-h-screen">
+        <h1 className="text-3xl font-semibold text-blue-800 mb-6">โครงการของเรา</h1>
+        <div className="space-y-4">
+          <div className="p-4 bg-gray-100 rounded shadow">โครงการสะพานข้ามแม่น้ำ</div>
+          <div className="p-4 bg-gray-100 rounded shadow">โครงการโรงงานพลังงานแสงอาทิตย์</div>
+        </div>
       </main>
       <Footer />
     </>
