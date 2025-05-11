@@ -50,8 +50,8 @@ export default function Home() {
           <div className="text-center">
             {/* โลโก้ใหญ่ขึ้นและเพิ่ม animation */}
             <img id="logo" src="/images/logo.png" alt="Company Logo" className="w-400 h-400 mb-4" />
-            <h2 className="text-3xl font-bold mb-2">Kitti Construction</h2>
-            <p className="text-lg italic">One Stop Service House Builder</p>
+            <h2 className="font-noto text-3xl font-bold mb-2">Kitti Construction</h2>
+            <p className="font-noto text-lg italic">One Stop Service House Builder</p>
           </div>
         </div>
 
@@ -67,10 +67,21 @@ export default function Home() {
             />
           ))}
 
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white text-center p-4 z-20">
-            <h1 className="text-4xl font-bold mb-4">{slides[current].title}</h1>
-            <p className="text-lg">{slides[current].description}</p>
+        <div
+          key={current}
+          className="absolute inset-0 flex items-center justify-center z-20"
+        >
+          <div className="relative text-white text-center w-full max-w-4xl px-4">
+            {/* กล่องแถบพื้นหลังแบบโปร่ง */}
+            <div className="absolute inset-0 bg-black bg-opacity-50 animate-slide-bar z-0 rounded-lg shadow-lg"></div>
+
+            {/* ข้อความบนกล่อง */}
+            <div className="relative z-10 opacity-0 animate-fade-in delay-500 py-8 px-6">
+              <h1 className="text-4xl font-bold mb-4">{slides[current].title}</h1>
+              <p className="text-lg">{slides[current].description}</p>
+            </div>
           </div>
+        </div>
         </div>
       </div>
 
