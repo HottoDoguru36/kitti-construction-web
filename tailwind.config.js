@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         noto: ['"Noto Sans Thai"', '"Noto Sans"', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
       },
     },
   },
