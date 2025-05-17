@@ -148,19 +148,6 @@ export default function Contact() {
           </form>
         </div>
       </section>
-      <div className="mt-8 w-full h-80 rounded-lg overflow-hidden shadow-lg">
-        <iframe
-          title="KTC Construction Location"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d484.0884778457001!2d100.6353966768807!3d13.91640447921461!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311d7d9c3136863f%3A0x2d269ee5cb6fc0bf!2zMjEyIOC4nuC4q-C4peC5guC4ouC4mOC4tOC4mSA1NC8xIOC5geC4guC4p-C4h-C4quC4suC4ouC5hOC4q-C4oSDguYDguILguJXguKrguLLguKLguYTguKvguKEg4LiB4Lij4Li44LiH4LmA4LiX4Lie4Lih4Lir4Liy4LiZ4LiE4LijIDEwMjIw!5e0!3m2!1sth!2sth!4v1747485208939!5m2!1sth!2sth"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
-
 
       <Footer />
     </>
