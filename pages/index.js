@@ -179,7 +179,7 @@ export default function Home() {
           <img src="/images/our-service/service3.jpg" alt="บ้าน 20 ล้านขึ้นไป" className="w-full h-96 object-cover" />
           <div className="p-4 bg-gray-100">
             <h3 className="font-roboto text-xl font-bold text-gray-800 mb-2">บ้าน 20 ล้านบาทขึ้นไป</h3>
-            <p className="text-gray-600">สถาปัตยกรรมพรีเมียม พร้อมวัสดุคุณภาพระดับสูง</p>
+            <p className="text-gray-600">สถาปัตยกรรมพรีเมียม พร้อมวัสดุคุณภาพระดับสูงสุด</p>
           </div>
         </div>
       </section>
