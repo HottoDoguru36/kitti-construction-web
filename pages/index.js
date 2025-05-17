@@ -47,6 +47,41 @@ export default function Home() {
 
   const slide = slides[current]
 
+  // Email Nodemailer
+  const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  phone: '',
+  message: ''
+  })
+  const [status, setStatus] = useState('')
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
+    const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus('กำลังส่ง...')
+
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+
+    if (res.ok) {
+      setStatus('ส่งอีเมล์แล้ว ทางเราจะรีบติดต่อกลับอย่างเร็วที่สุดครับ 😊')
+      setFormData({ name: '', email: '', phone: '', message: '' })
+    } else {
+      setStatus('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
+    }
+  }
+
+
   return (
     <>
       <Navbar />
@@ -57,8 +92,12 @@ export default function Home() {
           <div className="text-center">
             {/* Logo and its animation */}
             <img id="logo" src="/images/logo.png" alt="Company Logo" className="w-400 h-400 mb-4" />
-            <h2 className="font-roboto text-3xl font-bold mb-2">Kitti Construction</h2>
-            <p className="font-roboto text-lg italic">One Stop Service House Builder</p>
+            {/* Company Name */}
+            <h2 className="font-roboto text-5xl font-bold mb-4">Kitti Construction</h2>
+            {/* Motto (English) */}
+            <p className="font-roboto text-2xl italic mb-2">One Stop Service House Builder</p>
+            {/* Motto (Thai) */}
+            <p className="font-noto text-xl italic">รับเหมาออกเเบบบ้านเเบบมืออาชีพอย่างครบวงจร</p>
           </div>
         </div>
 
@@ -188,9 +227,81 @@ export default function Home() {
             </div>
           </div>
         </section>
+        {/* Contact Form Section */}
+        <section className="w-full bg-white py-10 px-6 sm:px-10 lg:px-20">
+          <h2 className="text-3xl font-bold mb-8 text-center">ติดต่อเรา / สอบถามข้อมูล</h2>
+          <form onSubmit={handleSubmit} className="space-y-8 max-w-full">
+            <div>
+              <label htmlFor="name" className="block w-full text-left font-semibold mb-2">ชื่อ-นามสกุล</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                placeholder="กรอกชื่อ-นามสกุลของคุณ"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block w-full text-left font-semibold mb-2">อีเมล</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                placeholder="กรอกอีเมลของคุณ"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="block w-full text-left font-semibold mb-2">เบอร์ติดต่อ</label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                placeholder="กรอกเบอร์โทรศัพท์"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="message" className="block w-full text-left font-semibold mb-2">รายละเอียด</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                required
+                className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                placeholder="รายละเอียดเพิ่มเติม"
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              ></textarea>
+            </div>
+
+            <div className="flex justify-start mt-4">
+              <button
+                type="submit"
+                className="bg-blue-700 text-white font-bold py-2 px-6 rounded hover:bg-blue-800 transition"
+              >
+                ส่งข้อความ
+              </button>
+            </div>
+            {status && (
+              <p className="mt-4 text-green-600 font-semibold">{status}</p>
+            )}
+          </form>
+        </section>
 
       </main>
-
       <Footer />
     </>
   )
