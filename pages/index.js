@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import Script from 'next/script'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -88,7 +89,7 @@ export default function Home() {
       {/* Slide Show with Logo and Motto 1/4 */}
       <div className="relative w-full h-[75vh] flex">
         {/* Left Side - Logo and Motto */}
-        <div className="w-1/4 flex justify-center items-center bg-gray-200 text-black p-8">
+        <div className="w-1/4 flex justify-center items-center bg-gradient-to-b from-white to-gray-200 text-black p-8">
           <div className="text-center">
             {/* Logo and its animation */}
             <img id="logo" src="/images/logo.png" alt="Company Logo" className="w-400 h-400 mb-4" />
@@ -130,59 +131,91 @@ export default function Home() {
         </div>
         </div>
       </div>
-      
 
       {/* Main Content */}
-      <main className="text-center p-10 bg-white min-h-screen">
+      <main className="text-center p-10 bg-gradient-to-b from-blue-50 to-white">
       {/* Service Header */}
-        <div className="w-full bg-blue-950 text-white py-6 flex justify-between items-center px-10">
-          <div className="flex flex-col text-left">
-            <h1 className="font-roboto text-3xl font-bold">Our Service</h1>
-            <h2 className="font-noto text-lg">บริการของเรา</h2>
+      <div className="w-full bg-blue-950 text-white py-6 flex justify-between items-center px-10">
+        <div className="flex flex-col text-left">
+          <h1 className="font-roboto text-3xl font-bold">Our Service</h1>
+          <h2 className="font-noto text-lg">บริการของเรา</h2>
+        </div>
+        <div className="text-right">
+          <p className="font-noto text-2xl">เราให้บริการรับเหมาเต็มระบบ ครบวงจร ใส่ใจทุกขั้นตอน ด้วยคุณภาพและความปลอดภัยที่คุณไว้วางใจได้</p>
+        </div>
+      </div>
+
+      {/* Services Section */}
+      <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10 px-4 md:px-6 lg:px-8">
+        <div className="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl hover:scale-110 transform transition duration-500 ease-in-out">
+          {/* Service Label */}
+          <div className="absolute top-4 left-4 bg-blue-800 text-white text-lg font-semibold px-4 py-2 rounded-full">
+            บ้านเดี่ยว ราคาประหยัด
           </div>
-          <div className="text-right">
-            <p className="font-noto text-2xl">เราให้บริการรับเหมาเต็มระบบ ครบวงจร ใส่ใจทุกขั้นตอน ด้วยคุณภาพและความปลอดภัยที่คุณไว้วางใจได้</p>
+          <img src="/images/our-service/service1.jpg" alt="บ้านราคา 2-4 ล้าน" className="w-full h-96 object-cover" />
+          <div className="p-4 bg-gray-100">
+            <h3 className="font-roboto text-xl font-bold text-gray-800 mb-2">บ้านราคา 2 - 4 ล้านบาท</h3>
+            <p className="text-gray-600">ออกแบบทันสมัย เน้นฟังก์ชันและประหยัดพื้นที่</p>
           </div>
         </div>
-        {/* Services Section */}
-        <section className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
-          <div className="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl hover:scale-110 transform transition duration-500 ease-in-out">
-            {/* Service Label */}
-            <div className="absolute top-4 left-4 bg-blue-800 text-white text-lg font-semibold px-4 py-2 rounded-full">
-              บ้านเดี่ยว ราคาประหยัด
-            </div>
-            {/* รอเปลี่ยนรูป */}
-            <img src="/images/our-service/service1.jpg" alt="บ้านราคา 2-4 ล้าน" className="w-full h-96 object-cover" />
-            <div className="p-4 bg-gray-100">
-              <h3 className="font-roboto text-xl font-bold text-gray-800 mb-2">บ้านราคา 2 - 4 ล้านบาท</h3>
-              <p className="text-gray-600">ออกแบบทันสมัย เน้นฟังก์ชันและประหยัดพื้นที่</p>
-            </div>
-          </div>
 
-          <div className="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl hover:scale-110 transform transition duration-500 ease-in-out">
-            {/* Service Label */}
-            <div className="absolute top-4 left-4 bg-blue-800 text-white text-lg font-semibold px-4 py-2 rounded-full">
-              บ้านเดี่ยว ราคาจับต้องได้
-            </div>
-            <img src="/images/our-service/service2.jpg" alt="บ้านราคา 5-10 ล้าน" className="w-full h-96 object-cover" />
-            <div className="p-4 bg-gray-100">
-              <h3 className="font-roboto text-xl font-bold text-gray-800 mb-2">บ้านราคา 5 - 10 ล้านบาท</h3>
-              <p className="text-gray-600">หรูหรา ครบทุกฟังก์ชัน เหมาะกับครอบครัวขนาดกลาง</p>
-            </div>
+        <div className="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl hover:scale-110 transform transition duration-500 ease-in-out">
+          {/* Service Label */}
+          <div className="absolute top-4 left-4 bg-blue-800 text-white text-lg font-semibold px-4 py-2 rounded-full">
+            บ้านเดี่ยว ราคาจับต้องได้
           </div>
+          <img src="/images/our-service/service2.jpg" alt="บ้านราคา 5-10 ล้าน" className="w-full h-96 object-cover" />
+          <div className="p-4 bg-gray-100">
+            <h3 className="font-roboto text-xl font-bold text-gray-800 mb-2">บ้านราคา 5 - 10 ล้านบาท</h3>
+            <p className="text-gray-600">หรูหรา ครบทุกฟังก์ชัน เหมาะกับครอบครัวขนาดกลาง</p>
+          </div>
+        </div>
 
-          <div className="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl hover:scale-110 transform transition duration-500 ease-in-out">
-            {/* Service Label */}
-            <div className="absolute top-4 left-4 bg-blue-800 text-white text-lg font-semibold px-4 py-2 rounded-full">
-              บ้านเดี่ยว ราคาสุดหรู
-            </div>
-            <img src="/images/our-service/service3.jpg" alt="บ้าน 20 ล้านขึ้นไป" className="w-full h-96 object-cover" />
-            <div className="p-4 bg-gray-100">
-              <h3 className="font-roboto text-xl font-bold text-gray-800 mb-2">บ้าน 20 ล้านบาทขึ้นไป</h3>
-              <p className="text-gray-600">สถาปัตยกรรมพรีเมียม พร้อมวัสดุคุณภาพระดับสูง</p>
-            </div>
+        <div className="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl hover:scale-110 transform transition duration-500 ease-in-out">
+          {/* Service Label */}
+          <div className="absolute top-4 left-4 bg-blue-800 text-white text-lg font-semibold px-4 py-2 rounded-full">
+            บ้านเดี่ยว ราคาสุดหรู
           </div>
-        </section>
+          <img src="/images/our-service/service3.jpg" alt="บ้าน 20 ล้านขึ้นไป" className="w-full h-96 object-cover" />
+          <div className="p-4 bg-gray-100">
+            <h3 className="font-roboto text-xl font-bold text-gray-800 mb-2">บ้าน 20 ล้านบาทขึ้นไป</h3>
+            <p className="text-gray-600">สถาปัตยกรรมพรีเมียม พร้อมวัสดุคุณภาพระดับสูง</p>
+          </div>
+        </div>
+      </section>
+
+    <section className="bg-gradient-to-b from-blue-50 to-white py-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 items-start max-w-[100vw]">
+
+        {/* รูปฝั่งซ้าย */}
+        <div className="w-full h-full">
+          <img
+            src="/images/our-service/fullservice.jpg"
+            alt="จุดเด่นของบริการ"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* ข้อความฝั่งขวา */}
+        <div className="w-full px-10 md:px-16 py-16 flex flex-col justify-start items-start text-gray-800">
+          <h3 className="text-4xl md:text-5xl font-bold mb-10">ทำไมต้องเลือกเรา?</h3>
+          <ul className="space-y-6 w-full text-xl md:text-2xl leading-relaxed">
+            {[
+              "ทีมงานมืออาชีพ ดูแลตั้งแต่เริ่มต้นจนส่งมอบ",
+              "ประสบการณ์มากกว่า 10 ปีในวงการก่อสร้าง",
+              "บริการครบวงจร ทั้งออกแบบ ก่อสร้าง ขออนุญาต",
+              "โปร่งใส ตรงเวลา พร้อมผลงานคุณภาพ"
+            ].map((item, index) => (
+              <li key={index} className="flex items-start gap-4">
+                <CheckCircleIcon className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
         {/* Facebook SDK Script */}
         <Script
           strategy="afterInteractive"
@@ -192,23 +225,25 @@ export default function Home() {
 
         {/* Facebook Section */}
         <section className="bg-gray-100 py-16 px-4">
-          <div className="max-w-6xl mx-auto text-center mb-8">
-            <h2 className="text-3xl font-bold text-blue-800 flex items-center justify-center gap-3">
-              <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+          <div className="w-full text-center mb-8">
+            <h2 className="text-4xl font-bold text-blue-800 flex items-center justify-center gap-3">
+              <svg className="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M22 12a10 10 0 10-11.5 9.9v-7H8v-3h2.5V9.5a3.5 3.5 0 013.7-3.9c1.1 0 2.3.2 2.3.2v2.5H15c-1.2 0-1.6.7-1.6 1.4V12H17l-.5 3h-2.1v7A10 10 0 0022 12z" />
               </svg>
               โปรดติดตามเราใน Facebook
             </h2>
-            <p className="text-gray-600 mt-2 text-lg">อัปเดตข่าวสาร โปรเจกต์ และผลงานล่าสุดของเราได้ที่เพจ</p>
+            <p className="text-gray-600 mt-2 text-xl">
+              อัปเดตข่าวสาร โปรเจกต์ และผลงานล่าสุดของเราได้ที่เพจ
+            </p>
           </div>
 
-          <div className="flex justify-center">
-            <div className="w-full max-w-[700px] bg-white rounded-lg shadow-lg p-4">
+          <div className="flex justify-center px-2">
+            <div className="w-full max-w-[1400px] bg-white rounded-xl shadow-xl p-4">
               <div
-                className="fb-page"
+                className="fb-page w-full"
                 data-href="https://www.facebook.com/profile.php?id=100057677932751"
                 data-tabs="timeline"
-                data-width="500"
+                data-width="1200"
                 data-height=""
                 data-small-header="false"
                 data-adapt-container-width="true"
@@ -227,6 +262,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+
         {/* Contact Form Section */}
         <section className="w-full bg-white py-10 px-6 sm:px-10 lg:px-20">
           <h2 className="text-3xl font-bold mb-8 text-center">ติดต่อเรา / สอบถามข้อมูล</h2>
