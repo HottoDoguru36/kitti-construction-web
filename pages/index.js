@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Script from 'next/script'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
@@ -37,6 +38,12 @@ export default function Home() {
       logo.classList.add('animate-slide-up');
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.FB) {
+      window.FB.XFBML.parse()
+    }
+  }, [])
 
   const slide = slides[current]
 
@@ -95,7 +102,7 @@ export default function Home() {
             <h2 className="font-noto text-lg">บริการของเรา</h2>
           </div>
           <div className="text-right">
-            <p className="font-noto text-2xl">เราให้บริการรับเหมาเต็มระบบ ครบวงจร ใส่ใจทุกขั้นตอนการก่อนสร้าง ด้วยคุณภาพและความปลอดภัยที่คุณไว้วางใจได้</p>
+            <p className="font-noto text-2xl">เราให้บริการรับเหมาเต็มระบบ ครบวงจร ใส่ใจทุกขั้นตอน ด้วยคุณภาพและความปลอดภัยที่คุณไว้วางใจได้</p>
           </div>
         </div>
         {/* Services Section */}
@@ -134,6 +141,50 @@ export default function Home() {
             <div className="p-4 bg-gray-100">
               <h3 className="font-roboto text-xl font-bold text-gray-800 mb-2">บ้าน 20 ล้านบาทขึ้นไป</h3>
               <p className="text-gray-600">สถาปัตยกรรมพรีเมียม พร้อมวัสดุคุณภาพระดับสูง</p>
+            </div>
+          </div>
+        </section>
+        {/* Facebook SDK Script */}
+        <Script
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+          src="https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v18.0"
+        />
+
+        {/* Facebook Section */}
+        <section className="bg-gray-100 py-16 px-4">
+          <div className="max-w-6xl mx-auto text-center mb-8">
+            <h2 className="text-3xl font-bold text-blue-800 flex items-center justify-center gap-3">
+              <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M22 12a10 10 0 10-11.5 9.9v-7H8v-3h2.5V9.5a3.5 3.5 0 013.7-3.9c1.1 0 2.3.2 2.3.2v2.5H15c-1.2 0-1.6.7-1.6 1.4V12H17l-.5 3h-2.1v7A10 10 0 0022 12z" />
+              </svg>
+              โปรดติดตามเราใน Facebook
+            </h2>
+            <p className="text-gray-600 mt-2 text-lg">อัปเดตข่าวสาร โปรเจกต์ และผลงานล่าสุดของเราได้ที่เพจ</p>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-full max-w-[700px] bg-white rounded-lg shadow-lg p-4">
+              <div
+                className="fb-page"
+                data-href="https://www.facebook.com/profile.php?id=100057677932751"
+                data-tabs="timeline"
+                data-width="500"
+                data-height=""
+                data-small-header="false"
+                data-adapt-container-width="true"
+                data-hide-cover="false"
+                data-show-facepile="true"
+              >
+                <blockquote
+                  cite="https://www.facebook.com/profile.php?id=100057677932751"
+                  className="fb-xfbml-parse-ignore"
+                >
+                  <a href="https://www.facebook.com/profile.php?id=100057677932751">
+                    KTC รับสร้างบ้าน กรุงเทพและปริมณฑล
+                  </a>
+                </blockquote>
+              </div>
             </div>
           </div>
         </section>
