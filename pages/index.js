@@ -4,23 +4,47 @@ import Script from 'next/script'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
-const slides = [
+const slideTexts = [
   {
-    image: '/images/slide1.jpg',
     title: 'สร้างสรรค์โครงการคุณภาพ',
     description: 'เรามุ่งมั่นพัฒนาโครงการเพื่ออนาคตที่ยั่งยืน'
   },
   {
-    image: '/images/slide2.jpg',
     title: 'ความเชี่ยวชาญและประสบการณ์',
     description: 'เราคือผู้นำในด้านวิศวกรรมและการก่อสร้าง'
   },
   {
-    image: '/images/slide3.jpg',
     title: 'พันธมิตรที่คุณวางใจได้',
     description: 'ร่วมเดินทางกับเราเพื่อความสำเร็จในทุกโครงการ'
+  },
+  {
+    title: 'มาตรฐานงานก่อสร้างระดับมืออาชีพ',
+    description: 'เราควบคุมคุณภาพทุกขั้นตอน เพื่อผลลัพธ์ที่คุณเชื่อมั่นและไว้ใจได้'
   }
-]
+];
+
+const slideImages = [
+  '/images/slide1.jpg',
+  '/images/slide2.jpg',
+  '/images/slide3.jpg',
+  '/images/slide4.jpg',
+  '/images/slide5.jpg'
+];
+
+function shuffle(array) {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+const shuffledImages = shuffle(slideImages);
+
+const slides = slideTexts.map((text, index) => ({
+  ...text,
+  image: shuffledImages[index]
+}));
 
 export default function Home() {
   const [current, setCurrent] = useState(0)
