@@ -32,8 +32,8 @@ export default function Navbar() {
         <div className="flex-1 flex justify-center space-x-6 text-blue-800 font-semibold">
           <Link href="/">หน้าแรก</Link>
           <Link href="/about">เกี่ยวกับเรา</Link>
+          <Link href="/portfolios">Portfolios</Link>
           <Link href="/projects">โครงการ</Link>
-          <Link href="/gallery">แกลเลอรี่</Link>
           <Link href="/contact">ติดต่อเรา</Link>
         </div>
 
