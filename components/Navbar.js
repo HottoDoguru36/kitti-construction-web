@@ -39,7 +39,7 @@ export default function Navbar() {
       <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 transition-all duration-700 ${scrolled ? 'py-1' : 'py-0'}`}>
         <div className={`flex items-center justify-between py-3 transition-all duration-700 ${scrolled ? 'scale-[0.97]' : 'scale-100'} ${scrolled ? 'opacity-95' : 'opacity-100'}`}>
           <Link href="/" className="flex min-w-0 items-center gap-4">
-            <div className="relative flex h-16 w-16 flex-none items-center justify-center rounded-2xl bg-white/10 p-2 shadow-lg ring-2 ring-amber-400/70 sm:h-18 sm:w-18">
+            <div className="relative flex h-16 w-16 flex-none items-center justify-center rounded-2xl bg-white p-2 shadow-lg ring-2 ring-amber-400/70 sm:h-18 sm:w-18">
               <img src="/images/logo.png" alt="Kitti Construction" className="h-full w-full rounded-xl object-contain" />
             </div>
             <div className="min-w-0 leading-tight">
