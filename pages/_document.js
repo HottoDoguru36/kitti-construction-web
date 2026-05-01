@@ -4,7 +4,9 @@ export default function Document() {
   return (
     <Html lang="th">
       <Head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/favicon.svg?v=3" />
+        <link rel="apple-touch-icon" href="/favicon.svg?v=3" />
         <link
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&family=Roboto:wght@400;700&display=swap"
           rel="stylesheet"
