@@ -1,37 +1,58 @@
+import Link from 'next/link'
+
+const footerLinks = [
+  { href: '/', label: 'หน้าแรก' },
+  { href: '/about', label: 'เกี่ยวกับเรา' },
+  { href: '/projects', label: 'บริการ' },
+  { href: '/portfolios', label: 'ผลงาน' },
+  { href: '/contact', label: 'ติดต่อเรา' },
+]
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-8 px-6">
-      <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-6">
-        
-        {/* โลโก้ ซ้ายสุด */}
-        <div className="flex items-center space-x-4">
-          <img src="/images/logo.png" alt="KTC Logo" className="h-40 w-auto" />
+    <footer className="bg-slate-950 text-white">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-3">
+          <div>
+            <div className="flex items-center gap-3">
+              <img src="/images/logo.png" alt="Kitti Construction" className="h-12 w-12 rounded-full object-cover" />
+              <div>
+                <div className="text-sm font-semibold tracking-[0.22em] text-amber-300">KITTI CONSTRUCTION</div>
+                <div className="text-sm text-slate-300">รับเหมาก่อสร้างครบวงจร</div>
+              </div>
+            </div>
+            <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">
+              ทีมงานมืออาชีพสำหรับงานก่อสร้าง ออกแบบ และควบคุมงานอย่างเป็นระบบ เพื่อผลงานที่สวยงามและส่งมอบตรงเวลา
+            </p>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold">ติดต่อเรา</h4>
+            <div className="mt-4 space-y-2 text-sm text-slate-300">
+              <p>โทรศัพท์: 085-814-5434 (คุณสอง)</p>
+              <p>อีเมล: ktc@hotmail.com</p>
+              <p>ที่อยู่: 2/2 พหลโยธิน 54/1 แยก 8-4</p>
+              <p>แขวงคลองถนน เขตสายไหม กรุงเทพฯ 10220</p>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold">เมนูเว็บไซต์</h4>
+            <ul className="mt-4 space-y-2 text-sm text-slate-300">
+              {footerLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="transition hover:text-amber-300">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Contact ตรงกลาง */}
-        <div className="flex flex-col items-start space-y-1">
-          <h4 className="font-semibold text-lg">Contact Us</h4>
-          <p><span className="font-semibold">โทรศัพท์:</span> 085-814-5434 (คุณสอง)</p>
-          <p><span className="font-semibold">อีเมล:</span> ktc@hotmail.com</p>
-          <p><span className="font-semibold">ที่อยู่:</span> 2/2 พหลโยธิน 54/1 เเยก 8-4</p>
-          <p>เเขวง คลองถนน เขต สายไหม กรุงเทพ 10220 </p>
+        <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-slate-400">
+          © {new Date().getFullYear()} Kitti Construction. All Rights Reserved.
         </div>
-
-        {/* Sitemap ขวาสุด */}
-        <div className="text-right">
-          <h4 className="font-semibold text-lg mb-2">Sitemap</h4>
-          <ul>
-            <li><a href="/" className="hover:underline">หน้าแรก</a></li>
-            <li><a href="/services" className="hover:underline">บริการของเรา</a></li>
-            <li><a href="/contact" className="hover:underline">ติดต่อเรา</a></li>
-            <li><a href="/sitemap" className="hover:underline">แผนผังเว็บไซต์</a></li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Copyright */}
-      <div className="mt-8 border-t border-gray-700 pt-4 text-center text-sm text-gray-400">
-        © {new Date().getFullYear()} KTC Construction. All Rights Reserved.
       </div>
     </footer>
   )

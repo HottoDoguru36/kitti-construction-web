@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -29,10 +27,7 @@ export default function Contact() {
       })
 
       const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.message || 'เกิดข้อผิดพลาด')
-      }
+      if (!res.ok) throw new Error(data.message || 'เกิดข้อผิดพลาด')
 
       setFormSubmitted(true)
       e.target.reset()
@@ -46,107 +41,57 @@ export default function Contact() {
   return (
     <>
       <Navbar />
-      <div className="flex-grow">
-        <section className="bg-gray-100 py-20 px-6">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {/* LEFT: Logo + Contact Info */}
-            <div className="flex flex-col items-start">
-              <img src="/images/logo.png" alt="KTC Logo" className="w-[600px] h-auto mb-4" />
-              <div className="space-y-5 text-gray-800 text-lg">
-                {/* เบอร์โทร */}
-                <div className="flex items-start gap-3">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h1.2a1 1 0 01.97.757l.7 2.8a1 1 0 01-.29.98l-1.2 1.2a16.88 16.88 0 006.6 6.6l1.2-1.2a1 1 0 01.98-.29l2.8.7a1 1 0 01.757.97V19a2 2 0 01-2 2h-1C9.163 21 3 14.837 3 7V5z" />
-                  </svg>
-                  <div className="space-y-1">
-                    <p className="font-semibold">
-                      โทร: <a href="tel:0858145434" className="text-blue-700 font-semibold">085-814-5434</a> (คุณสอง),
-                      <a href="tel:0641974446" className="text-blue-700 font-semibold ml-2">064-197-4446</a> (คุณแม็ค)
-                    </p>
-                  </div>
-                </div>
-                {/* Email */}
-                <div className="flex items-start gap-3">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a3 3 0 003.22 0L22 8m-10 13a10 10 0 100-20 10 10 0 000 20z" />
-                  </svg>
-                  <p>อีเมล: <a href="mailto:ktc@example.com" className="text-blue-700 font-semibold">ktc@example.com</a></p>
-                </div>
-                {/* ที่อยู่ */}
-                <div className="flex items-start gap-3">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 12.414A4 4 0 1116 10a4 4 0 01-1.343 3.657l4.243 4.243a1 1 0 01-1.414 1.414z" />
-                  </svg>
-                  <p>2/2 พหลโยธิน 54/1 เเยก 8-4 แขวงคลองถนน เขตสายไหม กรุงเทพฯ 10220</p>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT: Contact Form */}
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-xl p-8 space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">ติดต่อเรา</h2>
-
-              {formSubmitted && <p className="text-green-600 font-medium">ส่งข้อความสำเร็จ! ขอบคุณที่ติดต่อเรา</p>}
-              {error && <p className="text-red-600 font-medium">{error}</p>}
-
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-600">ชื่อของคุณ</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="กรอกชื่อของคุณ"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-600">อีเมล</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="example@email.com"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-600">เบอร์โทร</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="เบอร์ติดต่อของคุณ"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-600">ข้อความ</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="คุณต้องการสอบถามอะไร..."
-                  required
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className={`bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={loading}
-              >
-                {loading ? 'กำลังส่ง...' : 'ส่งข้อความ'}
-              </button>
-            </form>
+      <main className="bg-slate-50 pt-24 text-slate-900">
+        <section className="bg-slate-950 py-20 text-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-300">Contact us</p>
+            <h1 className="mt-3 text-4xl font-bold sm:text-5xl">ติดต่อเรา</h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+              หากคุณกำลังวางแผนสร้างบ้านหรือมองหาผู้รับเหมาที่ดูแลครบวงจร ติดต่อทีมงานของเราเพื่อรับคำปรึกษาเบื้องต้น
+            </p>
           </div>
         </section>
-      </div>
+
+        <section className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div className="rounded-3xl bg-white p-8 shadow-xl ring-1 ring-slate-200">
+            <h2 className="text-2xl font-bold">ข้อมูลติดต่อ</h2>
+            <div className="mt-6 space-y-4 text-slate-700">
+              <p>โทรศัพท์: 085-814-5434 (คุณสอง)</p>
+              <p>อีเมล: ktc@hotmail.com</p>
+              <p>ที่อยู่: 2/2 พหลโยธิน 54/1 แยก 8-4 แขวงคลองถนน เขตสายไหม กรุงเทพฯ 10220</p>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="rounded-3xl bg-white p-8 shadow-xl ring-1 ring-slate-200">
+            <h2 className="text-2xl font-bold">ส่งข้อความหาเรา</h2>
+            <div className="mt-6 grid gap-5">
+              <div>
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700">ชื่อ-นามสกุล</label>
+                <input id="name" name="name" required className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20" />
+              </div>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">อีเมล</label>
+                  <input id="email" type="email" name="email" required className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20" />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="mb-2 block text-sm font-medium text-slate-700">เบอร์ติดต่อ</label>
+                  <input id="phone" name="phone" required className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20" />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-700">รายละเอียด</label>
+                <textarea id="message" name="message" rows="5" required className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20" />
+              </div>
+              <button type="submit" disabled={loading} className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60">
+                {loading ? 'กำลังส่ง...' : 'ส่งข้อความ'}
+              </button>
+              {formSubmitted && <p className="text-sm text-emerald-600">ส่งข้อความสำเร็จ ขอบคุณที่ติดต่อเรา</p>}
+              {error && <p className="text-sm text-red-600">{error}</p>}
+            </div>
+          </form>
+        </section>
+      </main>
       <Footer />
     </>
   )
