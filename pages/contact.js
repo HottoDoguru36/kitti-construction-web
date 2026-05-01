@@ -64,6 +64,14 @@ export default function Contact() {
 
           <form onSubmit={handleSubmit} className="rounded-3xl bg-white p-8 shadow-xl ring-1 ring-slate-200">
             <h2 className="text-2xl font-bold">ส่งข้อความหาเรา</h2>
+            <input
+              type="text"
+              name="honeypot"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="pointer-events-none absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
             <div className="mt-6 grid gap-5">
               <div>
                 <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700">ชื่อ-นามสกุล</label>
