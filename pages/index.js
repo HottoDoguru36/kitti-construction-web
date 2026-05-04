@@ -233,40 +233,45 @@ export default function Home() {
             </div>
 
             <div className="mt-10 flex justify-center px-0 sm:px-2">
-              <div className="w-full max-w-4xl overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-3 shadow-2xl sm:p-6 lg:p-8">
-                <div className="mb-4 flex items-center justify-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-600 text-white shadow-md">
-                    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M22 12a10 10 0 10-11.5 9.9v-7H8v-3h2.5V9.5a3.5 3.5 0 013.7-3.9c1.1 0 2.3.2 2.3.2v2.5H15c-1.2 0-1.6.7-1.6 1.4V12H17l-.5 3h-2.1v7A10 10 0 0022 12z" />
-                    </svg>
-                  </div>
-                  <div className="text-left">
-                    <h3 className="text-lg font-semibold text-slate-900">Kitti Construction</h3>
-                    <p className="text-sm text-slate-500">รับเหมาก่อสร้างครบวงจร</p>
-                  </div>
-                </div>
+              <div className="w-full max-w-5xl overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl">
+                <div className="grid gap-0 lg:grid-cols-[320px_minmax(0,1fr)]">
+                  <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 text-white sm:p-8">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg">
+                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M22 12a10 10 0 10-11.5 9.9v-7H8v-3h2.5V9.5a3.5 3.5 0 013.7-3.9c1.1 0 2.3.2 2.3.2v2.5H15c-1.2 0-1.6.7-1.6 1.4V12H17l-.5 3h-2.1v7A10 10 0 0022 12z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Facebook</p>
+                        <h3 className="mt-1 text-2xl font-bold">Kitti Construction</h3>
+                      </div>
+                    </div>
 
-                <div className="mx-auto w-full max-w-3xl overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-2 shadow-inner sm:p-3">
-                  <Script
-                    strategy="afterInteractive"
-                    crossOrigin="anonymous"
-                    src="https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v18.0"
-                  />
-                  <div
-                    className="fb-page mx-auto flex justify-center"
-                    data-href="https://www.facebook.com/profile.php?id=100057677932751"
-                    data-tabs="timeline"
-                    data-width="900"
-                    data-height=""
-                    data-small-header="false"
-                    data-adapt-container-width="true"
-                    data-hide-cover="false"
-                    data-show-facepile="true"
-                    data-lazy="true"
-                  >
-                    <blockquote cite="https://www.facebook.com/profile.php?id=100057677932751" className="fb-xfbml-parse-ignore">
-                      <a href="https://www.facebook.com/profile.php?id=100057677932751">KTC รับสร้างบ้าน กรุงเทพและปริมณฑล</a>
-                    </blockquote>
+                    <p className="mt-5 text-sm leading-7 text-slate-300">
+                      ติดตามผลงานอัปเดตโครงการ และดูตัวอย่างงานก่อสร้างของเราได้จากเพจโดยตรง
+                    </p>
+
+                    <div className="mt-6 space-y-3 text-sm text-slate-200">
+                      <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">อัปเดตงานจริงจากหน้างาน</div>
+                      <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">ดูผลงานและรีวิวเพิ่มเติม</div>
+                      <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">ติดต่อผ่าน Facebook Messenger ได้</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50 p-3 sm:p-5">
+                    <Script
+                      strategy="afterInteractive"
+                      crossOrigin="anonymous"
+                      src="https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v18.0"
+                    />
+                    <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-lg">
+                      <div className="fb-page mx-auto flex justify-center" data-href="https://www.facebook.com/profile.php?id=100057677932751" data-tabs="timeline" data-width="1000" data-height="650" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-lazy="true">
+                        <blockquote cite="https://www.facebook.com/profile.php?id=100057677932751" className="fb-xfbml-parse-ignore">
+                          <a href="https://www.facebook.com/profile.php?id=100057677932751">KTC รับสร้างบ้าน กรุงเทพและปริมณฑล</a>
+                        </blockquote>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

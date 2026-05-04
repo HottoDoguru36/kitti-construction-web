@@ -69,7 +69,7 @@ export default async function handler(req, res) {
   })
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: `"${name}" <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_RECEIVER,
     replyTo: email,
     subject: `KTC-Construction ลูกค้าติดต่อจากเว็บไซต์ - ${name}`,
