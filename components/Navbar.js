@@ -4,7 +4,7 @@ import Link from 'next/link'
 const navItems = [
   { href: '/', label: 'หน้าแรก' },
   { href: '/about', label: 'เกี่ยวกับเรา' },
-  { href: '/projects', label: 'บริการ' },
+  { href: '/services', label: 'บริการ' },
   { href: '/portfolios', label: 'ผลงาน' },
   { href: '/contact', label: 'ติดต่อเรา' },
 ]

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 
 function PortfolioCard({ project, index }) {
   const [isVisible, setIsVisible] = useState(false)
@@ -95,14 +95,13 @@ export default function Portfolios() {
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-700">Selected works</p>
               <h2 className="mt-2 text-2xl font-bold sm:text-3xl">โครงการล่าสุดของเรา</h2>
             </div>
-            <p className="max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
-            </p>
+            <p className="max-w-2xl text-sm leading-6 text-slate-600 sm:text-base" />
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {loading &&
               skeletons.map((_, i) => (
-                <div key={i} className="overflow-hidden rounded-[1.75rem] bg-white shadow-lg ring-1 ring-slate-200 animate-pulse">
+                <div key={i} className="animate-pulse overflow-hidden rounded-[1.75rem] bg-white shadow-lg ring-1 ring-slate-200">
                   <div className="aspect-[4/3] bg-slate-200" />
                   <div className="p-5">
                     <div className="h-4 w-2/3 rounded bg-slate-200" />

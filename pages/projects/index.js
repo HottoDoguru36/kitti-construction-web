@@ -1,6 +1,5 @@
-
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 
 const projects = [

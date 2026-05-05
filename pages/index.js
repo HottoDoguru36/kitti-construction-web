@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CheckCircleIcon, ArrowRightIcon, BuildingOffice2Icon, ShieldCheckIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
+import { CheckCircleIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
 import Script from 'next/script'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -22,21 +22,26 @@ const heroSlides = [
   },
 ]
 
-const services = [
+const serviceCategories = [
   {
-    title: 'รับสร้างบ้าน',
-    description: 'บ้านเดี่ยว บ้านพักอาศัย และบ้านตามแบบเฉพาะ',
-    icon: BuildingOffice2Icon,
+    title: 'Cozy Living',
+    desc: 'บ้านขนาดเล็ก',
+    img: '/images/services/Cozy Living (บ้านขนาดเล็ก)/cover.jpg',
   },
   {
-    title: 'ออกแบบและขออนุญาต',
-    description: 'ดูแลตั้งแต่แบบก่อสร้างจนเอกสารยื่นขออนุญาต',
-    icon: WrenchScrewdriverIcon,
+    title: 'Harmony Living',
+    desc: 'บ้านขนาดกลาง',
+    img: '/images/services/Harmony Living (บ้านขนาดกลาง)/cover.jpg',
   },
   {
-    title: 'ควบคุมงานและส่งมอบ',
-    description: 'ตรวจสอบคุณภาพงานทุกขั้นตอนจนส่งมอบจริง',
-    icon: ShieldCheckIcon,
+    title: 'Prestige Estate L',
+    desc: 'บ้านขนาดใหญ่',
+    img: '/images/services/Prestige Estate L (บ้านขนาดใหญ่)/cover.jpg',
+  },
+  {
+    title: 'Majestic Apartment',
+    desc: 'อพาร์ตเม้น',
+    img: '/images/services/Majestic Apartment (อพาร์ตเม้น)/cover.jpg',
   },
 ]
 
@@ -119,19 +124,29 @@ export default function Home() {
             <div className="grid gap-4 self-center">
               <div className="rounded-3xl border border-white/10 bg-white/10 p-5 backdrop-blur-md">
                 <p className="text-sm uppercase tracking-[0.25em] text-amber-300">มาตรฐานงาน</p>
-                <p className="mt-2 text-2xl font-semibold">ออกแบบสวย งานก่อสร้างแข็งแรง ส่งมอบตรงเวลา</p>
+                <p className="mt-2 text-2xl font-semibold">หมวดหมู่บ้านของเราในรูปแบบ portfolio</p>
               </div>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {services.map((service) => {
-                  const Icon = service.icon
-                  return (
-                    <div key={service.title} className="rounded-2xl border border-white/10 bg-slate-900/80 p-4">
-                      <Icon className="h-8 w-8 text-amber-300" />
-                      <h3 className="mt-3 font-semibold">{service.title}</h3>
-                      <p className="mt-2 text-sm text-slate-300">{service.description}</p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {serviceCategories.map((service) => (
+                  <a
+                    key={service.title}
+                    href="/services"
+                    className="group overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 transition hover:-translate-y-1 hover:border-amber-300/40 hover:bg-slate-900"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-slate-800">
+                      <img
+                        src={service.img}
+                        alt={service.title}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
                     </div>
-                  )
-                })}
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold text-white">{service.title}</h3>
+                      <p className="mt-1 text-sm text-slate-300">{service.desc}</p>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -164,35 +179,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-slate-50 py-20 text-slate-900">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-700">Services</p>
-                <h2 className="mt-2 text-3xl font-bold sm:text-4xl">บริการหลักของเรา</h2>
-              </div>
-              <p className="max-w-2xl text-slate-600">เหมาะสำหรับลูกค้าที่ต้องการผู้รับเหมาที่ดูแลครบทุกขั้นตอนอย่างเป็นระบบ</p>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-3">
-              {[
-                { title: 'บ้านราคาเริ่มต้น', desc: 'เหมาะกับบ้านงบคุ้มค่า สวย เรียบ และใช้งานได้จริง', img: '/images/our-service/service1.jpg' },
-                { title: 'บ้านระดับครอบครัว', desc: 'ออกแบบฟังก์ชันลงตัว รองรับการอยู่อาศัยระยะยาว', img: '/images/our-service/service2.jpg' },
-                { title: 'บ้านพรีเมียม', desc: 'งานดีไซน์และวัสดุระดับสูง พร้อมรายละเอียดเฉพาะตัว', img: '/images/our-service/service3.jpg' },
-              ].map((item) => (
-                <article key={item.title} className="group overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-2xl">
-                  <div className="h-72 overflow-hidden">
-                    <img src={item.img} alt={item.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold">{item.title}</h3>
-                    <p className="mt-2 text-slate-600">{item.desc}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <section className="bg-slate-950 py-20 text-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
