@@ -1,96 +1,134 @@
-import fs from 'fs'
 import path from 'path'
+import fs from 'fs'
 
-function isImageFile(file) {
-  return /\.(jpg|jpeg|png|webp)$/i.test(file)
+const servicesRootDir = path.join(process.cwd(), 'public', 'images', 'services')
+
+const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif'])
+
+let cached = null
+let cachedAtMs = 0
+const CACHE_TTL_MS = 60 * 1000
+
+function isImageFile(fileName) {
+  const ext = path.extname(fileName).toLowerCase()
+  return IMAGE_EXTENSIONS.has(ext)
 }
 
-function toPublicPath(...segments) {
-  return `/images/services/${segments.map(encodeURIComponent).join('/')}`
+function toPublicUrlFromParts(parts) {
+  // parts should be path segments (not starting with /)
+  return '/' + parts.map((p) => encodeURIComponent(p)).join('/')
 }
 
-function readImageFiles(dirPath) {
-  return fs
-    .readdirSync(dirPath)
-    .filter(isImageFile)
-    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+function getPublicUrlForRelativeToPublic(relToPublicParts) {
+  // Example: ['images', 'services', 'Cozy Living (บ้านขนาดเล็ก)', 'cover.jpg']
+  return toPublicUrlFromParts(relToPublicParts)
 }
 
-function readLeafFolders(basePath, categoryFolder, folderSegments = []) {
-  const currentPath = path.join(basePath, categoryFolder, ...folderSegments)
-  const entries = fs.readdirSync(currentPath, { withFileTypes: true })
-  const subfolders = entries.filter((entry) => entry.isDirectory())
-  const directImages = readImageFiles(currentPath)
-  const coverPath = path.join(currentPath, 'cover.jpg')
-  const relativeSegments = [categoryFolder, ...folderSegments]
+function normalizeSortedFileNames(names) {
+  return names.slice().sort((a, b) => a.localeCompare(b, 'th'))
+}
 
-  if (subfolders.length === 0) {
-    if (!directImages.length && !fs.existsSync(coverPath)) return []
+function safeDirentName(dirent) {
+  return dirent?.name
+}
 
-    return [
-      {
-        name: folderSegments[folderSegments.length - 1],
-        folder: folderSegments.join('/'),
-        path: currentPath,
-        cover: fs.existsSync(coverPath) ? toPublicPath(...relativeSegments, 'cover.jpg') : null,
-        images: directImages.map((image) => toPublicPath(...relativeSegments, image)),
-      },
-    ]
-  }
+async function buildServicesData() {
+  // Root categories
+  const rootEntries = await fs.promises.readdir(servicesRootDir, { withFileTypes: true })
 
-  const results = []
+  const categoryDirs = rootEntries.filter((d) => d.isDirectory()).map(safeDirentName)
 
-  if (directImages.length || fs.existsSync(coverPath)) {
-    results.push({
-      name: folderSegments[folderSegments.length - 1],
-      folder: folderSegments.join('/'),
-      path: currentPath,
-      cover: fs.existsSync(coverPath) ? toPublicPath(...relativeSegments, 'cover.jpg') : null,
-      images: directImages.map((image) => toPublicPath(...relativeSegments, image)),
+  const categories = await Promise.all(
+    categoryDirs.map(async (categoryFolderName) => {
+      const categoryDirPath = path.join(servicesRootDir, categoryFolderName)
+
+      const categoryEntries = await fs.promises.readdir(categoryDirPath, { withFileTypes: true })
+      const categoryFiles = categoryEntries.filter((d) => d.isFile()).map(safeDirentName)
+
+      const categoryCoverFile =
+        categoryFiles.find((f) => f.toLowerCase() === 'cover.jpg') ||
+        categoryFiles.find((f) => isImageFile(f))
+
+      const categoryCover = categoryCoverFile
+        ? getPublicUrlForRelativeToPublic(['images', 'services', categoryFolderName, categoryCoverFile])
+        : null
+
+      const projectDirs = categoryEntries.filter((d) => d.isDirectory()).map(safeDirentName)
+
+      const items = await Promise.all(
+        projectDirs.map(async (projectFolderName) => {
+          const projectDirPath = path.join(categoryDirPath, projectFolderName)
+          const projectEntries = await fs.promises.readdir(projectDirPath, { withFileTypes: true })
+
+          const projectFiles = projectEntries.filter((d) => d.isFile()).map(safeDirentName)
+          const projectImageFiles = normalizeSortedFileNames(projectFiles.filter((f) => isImageFile(f)))
+
+          const coverFile =
+            projectFiles.find((f) => f.toLowerCase() === 'cover.jpg') ||
+            projectImageFiles.find((f) => f !== undefined)
+
+          const cover = coverFile
+            ? getPublicUrlForRelativeToPublic(['images', 'services', categoryFolderName, projectFolderName, coverFile])
+            : null
+
+          // Gallery images: include all images in this project folder (including cover.jpg)
+          const images = projectImageFiles.map((fileName) =>
+            getPublicUrlForRelativeToPublic([
+              'images',
+              'services',
+              categoryFolderName,
+              projectFolderName,
+              fileName,
+            ])
+          )
+
+          return {
+            folder: projectFolderName,
+            name: projectFolderName,
+            cover,
+            images,
+          }
+        })
+      )
+
+      return {
+        folder: categoryFolderName,
+        title: categoryFolderName,
+        desc: '',
+        cover: categoryCover,
+        items,
+      }
     })
-  }
+  )
 
-  subfolders.forEach((entry) => {
-    results.push(...readLeafFolders(basePath, categoryFolder, [...folderSegments, entry.name]))
-  })
+  // keep stable ordering
+  categories.sort((a, b) => a.folder.localeCompare(b.folder, 'th'))
 
-  return results
+  return categories
 }
 
-function readCategory(basePath, folder) {
-  const categoryPath = path.join(basePath, folder)
-  const coverPath = path.join(categoryPath, 'cover.jpg')
-
-  const items = fs
-    .readdirSync(categoryPath, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .flatMap((entry) => readLeafFolders(basePath, folder, [entry.name]))
-    .sort((a, b) => a.folder.localeCompare(b.folder, 'th', { numeric: true }))
-
-  return {
-    title: folder,
-    folder,
-    cover: fs.existsSync(coverPath) ? toPublicPath(folder, 'cover.jpg') : null,
-    items,
+export default async function handler(req, res) {
+  if (req.method !== 'GET') {
+    res.status(405).json({ message: 'Method Not Allowed' })
+    return
   }
-}
-
-export default function handler(req, res) {
-  const basePath = path.join(process.cwd(), 'public', 'images', 'services')
 
   try {
-    if (!fs.existsSync(basePath)) {
-      return res.status(200).json([])
+    const now = Date.now()
+    if (cached && now - cachedAtMs < CACHE_TTL_MS) {
+      res.status(200).json(cached)
+      return
     }
 
-    const categories = fs
-      .readdirSync(basePath, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .map((entry) => readCategory(basePath, entry.name))
-      .sort((a, b) => a.title.localeCompare(b.title, 'th', { numeric: true }))
+    const categories = await buildServicesData()
 
-    return res.status(200).json(categories)
+    const payload = categories
+    cached = payload
+    cachedAtMs = now
+
+    res.status(200).json(payload)
   } catch (error) {
-    return res.status(500).json([])
+    console.error('Failed to build services data:', error)
+    res.status(500).json({ message: 'Failed to load services', error: String(error?.message || error) })
   }
 }
