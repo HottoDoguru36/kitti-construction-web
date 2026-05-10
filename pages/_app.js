@@ -6,6 +6,7 @@ import NProgress from 'nprogress'
 import Router from 'next/router'
 import AOS from 'aos'
 import { useEffect, useState } from 'react'
+import { Analytics } from '@vercel/analytics/next'
 
 NProgress.configure({ showSpinner: false, speed: 400 })
 
@@ -45,6 +46,7 @@ function MyApp({ Component, pageProps }) {
       <div key={pageKey} className="flex min-h-screen flex-col animate-fade-in">
         <Component {...pageProps} />
       </div>
+      <Analytics />
     </>
   )
 }
