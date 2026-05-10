@@ -1,6 +1,7 @@
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import Seo from '../../components/Seo'
 
 const projects = [
   {
@@ -31,6 +32,22 @@ const process = [
 export default function Projects() {
   return (
     <>
+      <Seo
+        title="บริการและโครงการ"
+        canonicalPathname="/projects"
+        description="รวมบริการและประเภทงานก่อสร้างที่ Kitti Construction ดูแล ตั้งแต่สำรวจ ออกแบบ ประเมินงบ วางแผนควบคุมคุณภาพ ไปจนถึงส่งมอบงาน"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'บริการและโครงการ - Kitti Construction',
+          url: 'https://kitticonstruction.com' + '/projects',
+          publisher: {
+            '@type': 'Organization',
+            name: 'Kitti Construction',
+            logo: '/images/logo.png',
+          },
+        }}
+      />
       <Navbar />
       <main className="bg-slate-50 pt-24 text-slate-900">
         <section className="bg-slate-950 py-20 text-white">

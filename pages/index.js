@@ -3,6 +3,7 @@ import { CheckCircleIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
 import Script from 'next/script'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Seo from '../components/Seo'
 
 const heroSlides = [
   {
@@ -91,6 +92,19 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title="รับเหมาก่อสร้างครบวงจร"
+        canonicalPathname="/"
+        description="Kitti Construction บริษัทรับเหมาก่อสร้างครบวงจร ออกแบบ ก่อสร้าง ควบคุมงาน และส่งมอบงานคุณภาพสำหรับบ้านและอาคาร"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'Kitti Construction',
+          logo: '/images/logo.png',
+          url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/',
+          sameAs: ['https://www.facebook.com/profile.php?id=100057677932751'],
+        }}
+      />
       <Navbar />
       <main className="overflow-x-hidden bg-slate-950 text-white">
         <section className="relative isolate overflow-hidden pt-24 sm:pt-28">

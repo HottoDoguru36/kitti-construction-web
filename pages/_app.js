@@ -19,10 +19,6 @@ Router.events.on('routeChangeError', () => {
   NProgress.done()
 })
 
-const siteName = 'Kitti Construction'
-const siteDescription =
-  'บริษัทรับเหมาก่อสร้างครบวงจร บริการออกแบบ ก่อสร้าง ควบคุมงาน และส่งมอบงานคุณภาพสำหรับบ้านและอาคาร'
-
 function MyApp({ Component, pageProps }) {
   const [pageKey, setPageKey] = useState('')
 
@@ -46,18 +42,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <title>{siteName}</title>
-        <meta name="description" content={siteDescription} />
-        <meta name="robots" content="index,follow" />
-        <meta name="theme-color" content="#0f172a" />
-        <meta property="og:site_name" content={siteName} />
-        <meta property="og:title" content={siteName} />
-        <meta property="og:description" content={siteDescription} />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/logo.png" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Head>
       <div key={pageKey} className="flex min-h-screen flex-col animate-fade-in">
         <Component {...pageProps} />
       </div>

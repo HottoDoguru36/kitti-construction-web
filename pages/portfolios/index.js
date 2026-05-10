@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import Seo from '../../components/Seo'
 
 function PortfolioCard({ project, index }) {
   const [isVisible, setIsVisible] = useState(false)
@@ -77,6 +78,24 @@ export default function Portfolios() {
 
   return (
     <>
+      <Seo
+        title="ผลงานของเรา"
+        canonicalPathname="/portfolios"
+        description="รวมผลงานและโครงการก่อสร้างที่ Kitti Construction เคยดูแล พร้อมตัวอย่างภาพและรายละเอียดของแต่ละโครงการ"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'ผลงานของเรา - Kitti Construction',
+          url:
+            (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') +
+            '/portfolios',
+          publisher: {
+            '@type': 'Organization',
+            name: 'Kitti Construction',
+            logo: '/images/logo.png',
+          },
+        }}
+      />
       <Navbar />
       <main className="overflow-x-hidden bg-slate-50 pt-24 text-slate-900">
         <section className="bg-slate-950 py-16 text-white sm:py-20">

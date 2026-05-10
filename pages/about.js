@@ -1,6 +1,7 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import Seo from '../components/Seo'
 
 const values = [
   'ทีมงานมืออาชีพ ดูแลงานตั้งแต่เริ่มต้นจนส่งมอบ',
@@ -19,6 +20,22 @@ const services = [
 export default function About() {
   return (
     <>
+      <Seo
+        title="เกี่ยวกับเรา"
+        canonicalPathname="/about"
+        description="Kitti Construction คือบริษัทรับเหมาก่อสร้างครบวงจร ตั้งแต่ออกแบบ ควบคุมงบประมาณ ไปจนถึงการก่อสร้างและส่งมอบผลงาน"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'AboutPage',
+          name: 'เกี่ยวกับเรา - Kitti Construction',
+          url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/about',
+          publisher: {
+            '@type': 'Organization',
+            name: 'Kitti Construction',
+            logo: '/images/logo.png',
+          },
+        }}
+      />
       <Navbar />
       <main className="bg-slate-50 pt-24 text-slate-900">
         <section className="bg-slate-950 py-20 text-white">

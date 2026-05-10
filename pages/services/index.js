@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import Seo from '../../components/Seo'
 
 function slugify(value) {
   return String(value)
@@ -273,6 +274,22 @@ export default function Services() {
 
   return (
     <>
+      <Seo
+        title="บริการรับเหมาก่อสร้าง"
+        canonicalPathname="/services"
+        description="บริการรับเหมาก่อสร้างครบวงจร จัดหมวดหมู่บริการบ้านขนาดเล็ก กลาง และใหญ่ พร้อมงานออกแบบและควบคุมคุณภาพ"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'ServicePage',
+          name: 'บริการรับเหมาก่อสร้าง - Kitti Construction',
+                  url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/services',
+          publisher: {
+            '@type': 'Organization',
+            name: 'Kitti Construction',
+            logo: '/images/logo.png',
+          },
+        }}
+      />
       <Navbar />
 
       <main className="overflow-x-hidden bg-slate-50 pt-24">

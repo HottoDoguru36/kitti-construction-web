@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import Seo from '../../components/Seo'
 
 export default function PortfolioDetail() {
   const router = useRouter()
@@ -64,6 +65,33 @@ export default function PortfolioDetail() {
 
   return (
     <>
+      <Seo
+        title={project ? `โครงการ ${project}` : 'โครงการ'}
+        canonicalPathname={project ? `/portfolios/${project}` : '/portfolios'}
+        description={
+          project
+            ? `แกลเลอรีผลงานสำหรับโครงการ ${project} - Kitti Construction`
+            : 'แกลเลอรีผลงานของ Kitti Construction'
+        }
+        schema={
+          project
+            ? {
+                '@context': 'https://schema.org',
+                '@type': 'ImageGallery',
+                name: `โครงการ ${project}`,
+                url:
+                  (process.env.NEXT_PUBLIC_SITE_URL ||
+                    'https://kitticonstruction.com') +
+                  `/portfolios/${project}`,
+                publisher: {
+                  '@type': 'Organization',
+                  name: 'Kitti Construction',
+                  logo: '/images/logo.png',
+                },
+              }
+            : null
+        }
+      />
       <Navbar />
       <main className="overflow-x-hidden bg-slate-50 pt-24 text-slate-900">
         <section className="bg-slate-950 py-14 text-white sm:py-16">

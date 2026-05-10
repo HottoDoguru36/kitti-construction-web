@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Seo from '../components/Seo'
 
 export default function Contact() {
   const [formSubmitted, setFormSubmitted] = useState(false)
@@ -40,6 +41,22 @@ export default function Contact() {
 
   return (
     <>
+      <Seo
+        title="ติดต่อเรา"
+        canonicalPathname="/contact"
+        description="ติดต่อ Kitti Construction เพื่อรับคำปรึกษาออกแบบ ก่อสร้าง และขอใบเสนอราคา"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'ContactPage',
+          name: 'ติดต่อ Kitti Construction',
+          url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/contact',
+          publisher: {
+            '@type': 'Organization',
+            name: 'Kitti Construction',
+            logo: '/images/logo.png',
+          },
+        }}
+      />
       <Navbar />
       <main className="bg-slate-50 pt-24 text-slate-900">
         <section className="bg-slate-950 py-20 text-white">
@@ -61,7 +78,7 @@ export default function Contact() {
                 ติดต่อทีมงานของเราเพื่อสอบถามเรื่องงานออกแบบ ก่อสร้าง หรือขอใบเสนอราคาได้โดยตรง
               </p>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="mt-8 flex flex-col gap-4">
                 <a href="tel:0858145434" className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:-translate-y-1 hover:bg-white/10">
                   <div className="flex items-center gap-3">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-400 text-slate-950 shadow-lg">
@@ -84,9 +101,9 @@ export default function Contact() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a3 3 0 003.22 0L22 8m-10 13a10 10 0 100-20 10 10 0 000 20z" />
                       </svg>
                     </div>
-                    <div className="min-w-0">
+                    <div className="flex-1 min-w-0">
                       <p className="text-xs uppercase tracking-[0.2em] text-slate-400">อีเมล</p>
-                      <p className="mt-1 break-words text-sm font-semibold leading-6 text-white group-hover:text-amber-300 sm:text-base">
+                      <p className="mt-1 break-words text-xs font-semibold leading-6 text-white group-hover:text-amber-300 sm:text-base" title="kitticonstruction1624@gmail.com">
                         kitticonstruction1624@gmail.com
                       </p>
                     </div>
