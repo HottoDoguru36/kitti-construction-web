@@ -87,7 +87,7 @@ export default function Contact() {
                     <div className="min-w-0">
                       <p className="text-xs uppercase tracking-[0.2em] text-slate-400">อีเมล</p>
                       <p className="mt-1 break-words text-sm font-semibold leading-6 text-white group-hover:text-amber-300 sm:text-base">
-                        ktc@hotmail.com
+                        kitticonstruction1624@gmail.com
                       </p>
                     </div>
                   </div>

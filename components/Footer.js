@@ -30,7 +30,7 @@ export default function Footer() {
             <h4 className="text-lg font-semibold">ติดต่อเรา</h4>
             <div className="mt-4 space-y-2 text-sm text-slate-300">
               <p>โทรศัพท์: 085-814-5434 (คุณสอง)</p>
-              <p>อีเมล: ktc@hotmail.com</p>
+              <p>อีเมล: kitticonstruction1624@gmail.com</p>
               <p>ที่อยู่: 2/2 พหลโยธิน 54/1 แยก 8-4</p>
               <p>แขวงคลองถนน เขตสายไหม กรุงเทพฯ 10220</p>
             </div>
