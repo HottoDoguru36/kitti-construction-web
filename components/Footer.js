@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 const footerLinks = [
   { href: '/', label: 'หน้าแรก' },
@@ -15,7 +16,7 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-3">
-              <img src="/images/logo.png" alt="Kitti Construction" className="h-12 w-12 rounded-full object-cover" />
+              <Image src="/images/logo.png" alt="Kitti Construction" width={48} height={48} className="rounded-full object-cover" />
               <div>
                 <div className="text-sm font-semibold tracking-[0.22em] text-amber-300">KITTI CONSTRUCTION</div>
                 <div className="text-sm text-slate-300">รับเหมาก่อสร้างครบวงจร</div>

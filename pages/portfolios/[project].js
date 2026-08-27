@@ -1,34 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Image from 'next/image'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import Seo from '../../components/Seo'
+import { getPortfolioList, getPortfolioImages } from '../../lib/portfoliosData'
+import { buildBreadcrumbSchema } from '../../lib/breadcrumbSchema'
 
-export default function PortfolioDetail() {
-  const router = useRouter()
-  const { project } = router.query
-  const [images, setImages] = useState([])
+export default function PortfolioDetail({ project, images }) {
   const [index, setIndex] = useState(0)
   const [isGalleryVisible, setIsGalleryVisible] = useState(false)
   const galleryRef = useRef(null)
-
-  useEffect(() => {
-    if (!project) return
-
-    fetch(`/api/portfolios/${project}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const safeImages = Array.isArray(data) ? data.filter((image) => image !== 'cover.jpg') : []
-        setImages(safeImages)
-        setIndex(0)
-      })
-      .catch(() => {
-        setImages([])
-        setIndex(0)
-      })
-  }, [project])
 
   useEffect(() => {
     const element = galleryRef.current
@@ -66,31 +49,30 @@ export default function PortfolioDetail() {
   return (
     <>
       <Seo
-        title={project ? `โครงการ ${project}` : 'โครงการ'}
-        canonicalPathname={project ? `/portfolios/${project}` : '/portfolios'}
-        description={
-          project
-            ? `แกลเลอรีผลงานสำหรับโครงการ ${project} - Kitti Construction`
-            : 'แกลเลอรีผลงานของ Kitti Construction'
-        }
-        schema={
-          project
-            ? {
-                '@context': 'https://schema.org',
-                '@type': 'ImageGallery',
-                name: `โครงการ ${project}`,
-                url:
-                  (process.env.NEXT_PUBLIC_SITE_URL ||
-                    'https://kitticonstruction.com') +
-                  `/portfolios/${project}`,
-                publisher: {
-                  '@type': 'Organization',
-                  name: 'Kitti Construction',
-                  logo: '/images/logo.png',
-                },
-              }
-            : null
-        }
+        title={`โครงการ ${project}`}
+        canonicalPathname={`/portfolios/${project}`}
+        description={`แกลเลอรีผลงานสำหรับโครงการ ${project} - Kitti Construction`}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ImageGallery',
+            name: `โครงการ ${project}`,
+            url:
+              (process.env.NEXT_PUBLIC_SITE_URL ||
+                'https://kitticonstruction.com') +
+              `/portfolios/${project}`,
+            publisher: {
+              '@type': 'Organization',
+              name: 'Kitti Construction',
+              logo: '/images/logo.png',
+            },
+          },
+          buildBreadcrumbSchema([
+            { name: 'หน้าแรก', pathname: '/' },
+            { name: 'ผลงานของเรา', pathname: '/portfolios' },
+            { name: `โครงการ ${project}`, pathname: `/portfolios/${project}` },
+          ]),
+        ]}
       />
       <Navbar />
       <main className="overflow-x-hidden bg-slate-50 pt-24 text-slate-900">
@@ -101,7 +83,7 @@ export default function PortfolioDetail() {
               กลับไปหน้า Portfolios
             </Link>
             <h1 className="mt-4 text-3xl font-bold sm:text-4xl lg:text-5xl">
-              {project ? `โครงการ ${project}` : 'โครงการ'}
+              โครงการ {project}
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base sm:leading-8">
               แกลเลอรีผลงานภายในโครงการนี้ แสดงรายละเอียดงานจริงที่เราเคยดูแล
@@ -114,10 +96,13 @@ export default function PortfolioDetail() {
             <div className="overflow-hidden rounded-[2rem] bg-white shadow-2xl ring-1 ring-slate-200">
               <div className="relative aspect-[4/3] bg-slate-100 sm:aspect-[16/10]">
                 {isGalleryVisible && currentImage ? (
-                  <img
+                  <Image
                     src={`/images/portfolios/${project}/${currentImage}`}
-                    alt={project}
-                    className="h-full w-full object-cover"
+                    alt={`ภาพที่ ${index + 1} ของโครงการ ${project}`}
+                    fill
+                    sizes="(min-width: 1024px) 60vw, 100vw"
+                    className="object-cover"
+                    priority={index === 0}
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-slate-400">
@@ -166,13 +151,15 @@ export default function PortfolioDetail() {
                   <button
                     key={image}
                     onClick={() => setIndex(itemIndex)}
-                    className={`overflow-hidden rounded-2xl border transition ${index === itemIndex ? 'border-amber-400 ring-2 ring-amber-300/40' : 'border-slate-200 hover:border-slate-300'}`}
+                    className={`relative h-24 overflow-hidden rounded-2xl border transition sm:h-28 ${index === itemIndex ? 'border-amber-400 ring-2 ring-amber-300/40' : 'border-slate-200 hover:border-slate-300'}`}
                   >
-                    <img
+                    <Image
                       src={`/images/portfolios/${project}/${image}`}
-                      alt={`${project} ${itemIndex + 1}`}
+                      alt={`ภาพที่ ${itemIndex + 1} ของโครงการ ${project}`}
+                      fill
+                      sizes="200px"
                       loading="lazy"
-                      className="h-24 w-full object-cover sm:h-28"
+                      className="object-cover"
                     />
                   </button>
                 ))}
@@ -184,4 +171,29 @@ export default function PortfolioDetail() {
       <Footer />
     </>
   )
+}
+
+export async function getStaticPaths() {
+  const projects = getPortfolioList()
+
+  return {
+    paths: projects.map((p) => ({ params: { project: p.name } })),
+    fallback: 'blocking',
+  }
+}
+
+export async function getStaticProps({ params }) {
+  const images = getPortfolioImages(params.project).filter((image) => image !== 'cover.jpg')
+
+  if (!images.length && !getPortfolioList().some((p) => p.name === params.project)) {
+    return { notFound: true }
+  }
+
+  return {
+    props: {
+      project: params.project,
+      images,
+    },
+    revalidate: 300,
+  }
 }

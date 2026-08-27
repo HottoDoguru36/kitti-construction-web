@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Seo from '../components/Seo'
+import HazardStripe from '../components/HazardStripe'
+import { buildBreadcrumbSchema } from '../lib/breadcrumbSchema'
 
 export default function Contact() {
   const [formSubmitted, setFormSubmitted] = useState(false)
@@ -45,17 +47,23 @@ export default function Contact() {
         title="ติดต่อเรา"
         canonicalPathname="/contact"
         description="ติดต่อ Kitti Construction เพื่อรับคำปรึกษาออกแบบ ก่อสร้าง และขอใบเสนอราคา"
-        schema={{
-          '@context': 'https://schema.org',
-          '@type': 'ContactPage',
-          name: 'ติดต่อ Kitti Construction',
-          url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/contact',
-          publisher: {
-            '@type': 'Organization',
-            name: 'Kitti Construction',
-            logo: '/images/logo.png',
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ContactPage',
+            name: 'ติดต่อ Kitti Construction',
+            url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/contact',
+            publisher: {
+              '@type': 'Organization',
+              name: 'Kitti Construction',
+              logo: '/images/logo.png',
+            },
           },
-        }}
+          buildBreadcrumbSchema([
+            { name: 'หน้าแรก', pathname: '/' },
+            { name: 'ติดต่อเรา', pathname: '/contact' },
+          ]),
+        ]}
       />
       <Navbar />
       <main className="bg-slate-50 pt-24 text-slate-900">
@@ -68,6 +76,8 @@ export default function Contact() {
             </p>
           </div>
         </section>
+
+        <HazardStripe />
 
         <section className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="overflow-hidden rounded-[2rem] bg-slate-950 text-white shadow-2xl ring-1 ring-slate-800">

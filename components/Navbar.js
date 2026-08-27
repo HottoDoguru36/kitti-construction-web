@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const navItems = [
   { href: '/', label: 'หน้าแรก' },
@@ -40,7 +41,14 @@ export default function Navbar() {
         <div className={`flex items-center justify-between py-3 transition-all duration-700 ${scrolled ? 'scale-[0.97]' : 'scale-100'} ${scrolled ? 'opacity-95' : 'opacity-100'}`}>
           <Link href="/" className="flex min-w-0 items-center gap-4">
             <div className="relative flex h-16 w-16 flex-none items-center justify-center rounded-2xl bg-white p-2 shadow-lg ring-2 ring-amber-400/70 sm:h-18 sm:w-18">
-              <img src="/images/logo.png" alt="Kitti Construction" className="h-full w-full rounded-xl object-contain" />
+              <Image
+                src="/images/logo.png"
+                alt="Kitti Construction"
+                fill
+                sizes="72px"
+                className="rounded-xl object-contain p-2"
+                priority
+              />
             </div>
             <div className="min-w-0 leading-tight">
               <div className={`truncate text-sm font-semibold tracking-[0.18em] sm:text-base sm:tracking-[0.22em] ${scrolled ? 'text-slate-900' : 'text-white'}`}>KITTI CONSTRUCTION</div>
@@ -72,7 +80,7 @@ export default function Navbar() {
               }`}
               aria-label="Facebook"
             >
-              <img src="/images/facebook-new.png" alt="" className="h-5 w-5 drop-shadow-sm" />
+              <Image src="/images/facebook-new.png" alt="Kitti Construction Facebook" width={20} height={20} className="drop-shadow-sm" />
             </a>
             <Link href="/contact" className="hidden rounded-full bg-amber-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-amber-300 sm:inline-flex">
               ขอใบเสนอราคา

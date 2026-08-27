@@ -27,12 +27,16 @@ export default function Seo({
   description = DEFAULT_SITE_DESCRIPTION,
   canonicalPathname,
   ogImage = '/images/logo.png',
+  ogImageWidth = 1200,
+  ogImageHeight = 630,
   schema = null,
   robots = 'index,follow',
   type = 'website',
 }) {
   const siteName = DEFAULT_SITE_NAME
   const canonicalUrl = buildAbsoluteUrl(canonicalPathname || '/')
+  const absoluteOgImage = buildAbsoluteUrl(ogImage) || ogImage
+  const schemaList = Array.isArray(schema) ? schema.filter(Boolean) : schema ? [schema] : []
 
   const fullTitle = title ? `${title} | ${siteName}` : siteName
 
@@ -50,6 +54,7 @@ export default function Seo({
 
       <meta key="og:site_name" property="og:site_name" content={siteName} />
       <meta key="og:type" property="og:type" content={type} />
+      <meta key="og:locale" property="og:locale" content="th_TH" />
       <meta key="og:title" property="og:title" content={fullTitle} />
       <meta
         key="og:description"
@@ -58,7 +63,10 @@ export default function Seo({
       />
       {canonicalUrl && <meta key="og:url" property="og:url" content={canonicalUrl} />}
 
-      <meta key="og:image" property="og:image" content={ogImage} />
+      <meta key="og:image" property="og:image" content={absoluteOgImage} />
+      <meta key="og:image:width" property="og:image:width" content={String(ogImageWidth)} />
+      <meta key="og:image:height" property="og:image:height" content={String(ogImageHeight)} />
+      <meta key="og:image:alt" property="og:image:alt" content={fullTitle} />
 
       <meta
         key="twitter:card"
@@ -71,18 +79,18 @@ export default function Seo({
         name="twitter:description"
         content={description}
       />
-      <meta key="twitter:image" name="twitter:image" content={ogImage} />
+      <meta key="twitter:image" name="twitter:image" content={absoluteOgImage} />
 
-      {schema && (
+      {schemaList.map((item, i) => (
         <script
-          key="jsonld"
+          key={`jsonld-${i}`}
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(schema),
+            __html: JSON.stringify(item),
           }}
         />
-      )}
+      ))}
     </Head>
   )
 }

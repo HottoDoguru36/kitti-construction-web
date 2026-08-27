@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
+import Image from 'next/image'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import Seo from '../../components/Seo'
+import HazardStripe from '../../components/HazardStripe'
+import { getServicesData } from '../../lib/servicesData'
+import { buildBreadcrumbSchema } from '../../lib/breadcrumbSchema'
 
 function slugify(value) {
   return String(value)
@@ -42,9 +46,11 @@ function CategoryCard({ category, onOpenProject }) {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {category.items.map((item) => (
+          {category.items.map((item, index) => (
             <button
               key={`${category.folder}-${item.folder}`}
+              data-aos="fade-up"
+              data-aos-delay={index * 80}
               onClick={() =>
                 onOpenProject({
                   title: `${category.folder} · ${item.folder}`,
@@ -54,15 +60,17 @@ function CategoryCard({ category, onOpenProject }) {
               }
               className="group overflow-hidden rounded-3xl bg-white text-left shadow-lg ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
                   src={
                     item.cover ||
                     category.cover ||
                     '/images/our-service/fullservice.jpg'
                   }
-                  alt={item.folder}
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  alt={`${category.folder} · ${item.folder} - Kitti Construction`}
+                  fill
+                  sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover transition duration-700 group-hover:scale-105"
                 />
               </div>
 
@@ -185,13 +193,15 @@ function ProjectGalleryModal({
           </button>
         </div>
 
-        {/* Main image */}
-        <div className="relative">
+        <div className="relative aspect-[16/10] w-full">
           {currentImage && (
-            <img
+            <Image
               src={currentImage}
               alt={title}
-              className="w-full max-h-[65vh] object-cover"
+              fill
+              sizes="(min-width: 1024px) 72rem, 100vw"
+              className="object-cover"
+              priority
             />
           )}
 
@@ -227,17 +237,13 @@ function ProjectGalleryModal({
             <button
               key={src + i}
               onClick={() => setIndex(i)}
-              className={`overflow-hidden rounded-xl border ${
+              className={`relative h-20 overflow-hidden rounded-xl border ${
                 i === safeIndex
                   ? 'border-amber-400 ring-2 ring-amber-300/40'
                   : 'border-slate-200'
               }`}
             >
-              <img
-                src={src}
-                alt={`${title}-${i}`}
-                className="h-20 w-full object-cover"
-              />
+              <Image src={src} alt={`${title}-${i}`} fill sizes="150px" className="object-cover" />
             </button>
           ))}
         </div>
@@ -247,21 +253,10 @@ function ProjectGalleryModal({
   )
 }
 
-export default function Services() {
-  const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(true)
+export default function Services({ categories }) {
   const [activeProject, setActiveProject] = useState(null)
 
   const { scrollToSection } = useScrollToSection()
-
-  useEffect(() => {
-    fetch('/api/services')
-      .then((res) => res.json())
-      .then((data) =>
-        setCategories(Array.isArray(data) ? data : [])
-      )
-      .finally(() => setLoading(false))
-  }, [])
 
   const categoryLinks = useMemo(
     () =>
@@ -278,17 +273,23 @@ export default function Services() {
         title="บริการรับเหมาก่อสร้าง"
         canonicalPathname="/services"
         description="บริการรับเหมาก่อสร้างครบวงจร จัดหมวดหมู่บริการบ้านขนาดเล็ก กลาง และใหญ่ พร้อมงานออกแบบและควบคุมคุณภาพ"
-        schema={{
-          '@context': 'https://schema.org',
-          '@type': 'ServicePage',
-          name: 'บริการรับเหมาก่อสร้าง - Kitti Construction',
-                  url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/services',
-          publisher: {
-            '@type': 'Organization',
-            name: 'Kitti Construction',
-            logo: '/images/logo.png',
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ServicePage',
+            name: 'บริการรับเหมาก่อสร้าง - Kitti Construction',
+            url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/services',
+            publisher: {
+              '@type': 'Organization',
+              name: 'Kitti Construction',
+              logo: '/images/logo.png',
+            },
           },
-        }}
+          buildBreadcrumbSchema([
+            { name: 'หน้าแรก', pathname: '/' },
+            { name: 'บริการรับเหมาก่อสร้าง', pathname: '/services' },
+          ]),
+        ]}
       />
       <Navbar />
 
@@ -319,20 +320,16 @@ export default function Services() {
           </div>
         </section>
 
+        <HazardStripe />
+
         <section className="pb-10">
-          {loading ? (
-            <div className="py-20 text-center">
-              Loading...
-            </div>
-          ) : (
-            categories.map((category) => (
-              <CategoryCard
-                key={category.folder}
-                category={category}
-                onOpenProject={setActiveProject}
-              />
-            ))
-          )}
+          {categories.map((category) => (
+            <CategoryCard
+              key={category.folder}
+              category={category}
+              onOpenProject={setActiveProject}
+            />
+          ))}
         </section>
       </main>
 
@@ -348,4 +345,13 @@ export default function Services() {
       )}
     </>
   )
+}
+
+export async function getStaticProps() {
+  return {
+    props: {
+      categories: await getServicesData(),
+    },
+    revalidate: 300,
+  }
 }

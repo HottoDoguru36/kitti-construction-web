@@ -1,5 +1,4 @@
-import fs from 'fs'
-import path from 'path'
+import { getPortfolioImages } from '../../../lib/portfoliosData'
 
 const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000
 const MAX_REQUESTS_PER_WINDOW = 200
@@ -54,23 +53,10 @@ export default function handler(req, res) {
   }
 
   try {
-    const basePath = path.resolve(process.cwd(), 'public', 'images', 'portfolios')
-    const resolvedDir = path.resolve(basePath, project)
-
-    // Path traversal guard: resolvedDir must stay within basePath
-    const baseWithSep = basePath.endsWith(path.sep) ? basePath : basePath + path.sep
-    if (!resolvedDir.startsWith(baseWithSep)) {
+    const files = getPortfolioImages(project)
+    if (!files.length) {
       return res.status(404).json([])
     }
-
-    if (!fs.existsSync(resolvedDir) || !fs.statSync(resolvedDir).isDirectory()) {
-      return res.status(404).json([])
-    }
-
-    const files = fs
-      .readdirSync(resolvedDir)
-      .filter((file) => /\.(jpg|jpeg|png|webp)$/i.test(file))
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
 
     return res.status(200).json(files)
   } catch (err) {

@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { CheckCircleIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
 import Script from 'next/script'
+import Image from 'next/image'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Seo from '../components/Seo'
+import HazardStripe from '../components/HazardStripe'
+import StatCounter from '../components/StatCounter'
 
 const heroSlides = [
   {
@@ -57,10 +60,28 @@ export default function Home() {
   const [current, setCurrent] = useState(0)
   const [status, setStatus] = useState('')
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
+  const [parallaxY, setParallaxY] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => setCurrent((prev) => (prev + 1) % heroSlides.length), 5000)
     return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let ticking = false
+    const handleScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        setParallaxY(window.scrollY * 0.15)
+        ticking = false
+      })
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   useEffect(() => {
@@ -96,20 +117,41 @@ export default function Home() {
         title="รับเหมาก่อสร้างครบวงจร"
         canonicalPathname="/"
         description="Kitti Construction บริษัทรับเหมาก่อสร้างครบวงจร ออกแบบ ก่อสร้าง ควบคุมงาน และส่งมอบงานคุณภาพสำหรับบ้านและอาคาร"
-        schema={{
-          '@context': 'https://schema.org',
-          '@type': 'Organization',
-          name: 'Kitti Construction',
-          logo: '/images/logo.png',
-          url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/',
-          sameAs: ['https://www.facebook.com/profile.php?id=100057677932751'],
-        }}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Kitti Construction',
+            logo: '/images/logo.png',
+            url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/',
+            sameAs: ['https://www.facebook.com/profile.php?id=100057677932751'],
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'GeneralContractor',
+            name: 'Kitti Construction',
+            image: '/images/logo.png',
+            telephone: '+66-85-814-5434',
+            email: 'kitticonstruction1624@gmail.com',
+            url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') + '/',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '2/2 พหลโยธิน 54/1 แยก 8-4 แขวงคลองถนน',
+              addressLocality: 'เขตสายไหม',
+              addressRegion: 'กรุงเทพฯ',
+              postalCode: '10220',
+              addressCountry: 'TH',
+            },
+            areaServed: 'TH',
+            sameAs: ['https://www.facebook.com/profile.php?id=100057677932751'],
+          },
+        ]}
       />
       <Navbar />
       <main className="overflow-x-hidden bg-slate-950 text-white">
         <section className="relative isolate overflow-hidden pt-24 sm:pt-28">
-          <div className="absolute inset-0">
-            <img src={slide.image} alt="" className="h-full w-full object-cover opacity-25" />
+          <div className="absolute inset-0" style={{ transform: `translateY(${parallaxY}px)` }}>
+            <Image src={slide.image} alt="" fill priority sizes="100vw" className="object-cover opacity-25" />
             <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-amber-950/40" />
           </div>
 
@@ -141,17 +183,21 @@ export default function Home() {
                 <p className="mt-2 text-2xl font-semibold">หมวดหมู่บ้านของเราในรูปแบบ portfolio</p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
-                {serviceCategories.map((service) => (
+                {serviceCategories.map((service, index) => (
                   <a
                     key={service.title}
                     href="/services"
+                    data-aos="fade-up"
+                    data-aos-delay={index * 80}
                     className="group overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 transition hover:-translate-y-1 hover:border-amber-300/40 hover:bg-slate-900"
                   >
                     <div className="relative aspect-[4/3] overflow-hidden bg-slate-800">
-                      <img
+                      <Image
                         src={service.img}
-                        alt={service.title}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        alt={`บริการก่อสร้าง ${service.title} (${service.desc}) โดย Kitti Construction`}
+                        fill
+                        sizes="(min-width: 1024px) 25vw, 50vw"
+                        className="object-cover transition duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
                     </div>
@@ -165,6 +211,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <HazardStripe />
 
         <section className="bg-white py-16 text-slate-900 sm:py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -186,9 +234,21 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-3xl shadow-2xl">
-                <img src="/images/our-service/fullservice.jpg" alt="บริการครบวงจร" className="h-full w-full object-cover" />
+              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl lg:aspect-auto lg:h-full">
+                <Image src="/images/our-service/fullservice.jpg" alt="บริการรับเหมาก่อสร้างครบวงจร โดย Kitti Construction" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
               </div>
+            </div>
+          </div>
+        </section>
+
+        <HazardStripe />
+
+        <section className="bg-slate-950 py-16 text-white sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+              <StatCounter value={10} suffix="+" label="ปีประสบการณ์" />
+              <StatCounter value={150} suffix="+" label="โครงการที่ส่งมอบ" />
+              <StatCounter value={100000} suffix="+" label="ตร.ม. ที่ก่อสร้าง" />
             </div>
           </div>
         </section>

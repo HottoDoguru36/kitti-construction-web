@@ -1,45 +1,29 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import Seo from '../../components/Seo'
+import HazardStripe from '../../components/HazardStripe'
+import { getPortfolioList } from '../../lib/portfoliosData'
+import { buildBreadcrumbSchema } from '../../lib/breadcrumbSchema'
 
 function PortfolioCard({ project, index }) {
-  const [isVisible, setIsVisible] = useState(false)
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const element = ref.current
-    if (!element) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.15 }
-    )
-
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <Link
-      ref={ref}
       href={`/portfolios/${project.name}`}
-      className={`group overflow-hidden rounded-[1.75rem] bg-white shadow-lg ring-1 ring-slate-200 transition duration-500 hover:-translate-y-1 hover:shadow-2xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
-      style={{ transitionDelay: `${index * 80}ms` }}
+      data-aos="fade-up"
+      data-aos-delay={index * 80}
+      className="group overflow-hidden rounded-[1.75rem] bg-white shadow-lg ring-1 ring-slate-200 transition duration-500 hover:-translate-y-1 hover:shadow-2xl"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         {project.cover ? (
-          <img
+          <Image
             src={project.cover}
-            alt={project.name}
+            alt={`หน้าปกโครงการ ${project.name} โดย Kitti Construction`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             loading="lazy"
-            className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            className="object-cover transition duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-slate-400">No cover image</div>
@@ -61,40 +45,32 @@ function PortfolioCard({ project, index }) {
   )
 }
 
-export default function Portfolios() {
-  const [projects, setProjects] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetch('/api/portfolios')
-      .then((res) => res.json())
-      .then((data) => {
-        setProjects(Array.isArray(data) ? data : [])
-      })
-      .finally(() => setLoading(false))
-  }, [])
-
-  const skeletons = useMemo(() => Array.from({ length: 6 }), [])
-
+export default function Portfolios({ projects }) {
   return (
     <>
       <Seo
         title="ผลงานของเรา"
         canonicalPathname="/portfolios"
         description="รวมผลงานและโครงการก่อสร้างที่ Kitti Construction เคยดูแล พร้อมตัวอย่างภาพและรายละเอียดของแต่ละโครงการ"
-        schema={{
-          '@context': 'https://schema.org',
-          '@type': 'CollectionPage',
-          name: 'ผลงานของเรา - Kitti Construction',
-          url:
-            (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') +
-            '/portfolios',
-          publisher: {
-            '@type': 'Organization',
-            name: 'Kitti Construction',
-            logo: '/images/logo.png',
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: 'ผลงานของเรา - Kitti Construction',
+            url:
+              (process.env.NEXT_PUBLIC_SITE_URL || 'https://kitticonstruction.com') +
+              '/portfolios',
+            publisher: {
+              '@type': 'Organization',
+              name: 'Kitti Construction',
+              logo: '/images/logo.png',
+            },
           },
-        }}
+          buildBreadcrumbSchema([
+            { name: 'หน้าแรก', pathname: '/' },
+            { name: 'ผลงานของเรา', pathname: '/portfolios' },
+          ]),
+        ]}
       />
       <Navbar />
       <main className="overflow-x-hidden bg-slate-50 pt-24 text-slate-900">
@@ -108,6 +84,8 @@ export default function Portfolios() {
           </div>
         </section>
 
+        <HazardStripe />
+
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -118,25 +96,22 @@ export default function Portfolios() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {loading &&
-              skeletons.map((_, i) => (
-                <div key={i} className="animate-pulse overflow-hidden rounded-[1.75rem] bg-white shadow-lg ring-1 ring-slate-200">
-                  <div className="aspect-[4/3] bg-slate-200" />
-                  <div className="p-5">
-                    <div className="h-4 w-2/3 rounded bg-slate-200" />
-                    <div className="mt-3 h-3 w-full rounded bg-slate-200" />
-                  </div>
-                </div>
-              ))}
-
-            {!loading &&
-              projects.map((project, index) => (
-                <PortfolioCard key={project.name} project={project} index={index} />
-              ))}
+            {projects.map((project, index) => (
+              <PortfolioCard key={project.name} project={project} index={index} />
+            ))}
           </div>
         </section>
       </main>
       <Footer />
     </>
   )
+}
+
+export async function getStaticProps() {
+  return {
+    props: {
+      projects: getPortfolioList(),
+    },
+    revalidate: 300,
+  }
 }
